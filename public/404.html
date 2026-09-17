@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>VEX CASH</title>
+    <script>
+      // GitHub Pages has no server-side rewrite for client-side routes, so a
+      // deep link or refresh 404s. This re-encodes the path as a query string
+      // on a redirect to index.html, where the inline script below decodes it
+      // back before React Router mounts. See rafgraph/spa-github-pages.
+      var basePath = '/vex-cash-account-page/'
+      var path = location.pathname.slice(basePath.length)
+      location.replace(
+        basePath +
+          '?redirect=' +
+          encodeURIComponent(path + location.search + location.hash),
+      )
+    </script>
+  </head>
+  <body></body>
+</html>

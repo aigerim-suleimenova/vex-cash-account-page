@@ -14,6 +14,14 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Pairs with public/404.html's redirect - decode the real path back
+      // out of ?redirect= before React Router mounts.
+      var redirect = new URLSearchParams(location.search).get('redirect')
+      if (redirect) {
+        history.replaceState(null, '', location.pathname + redirect)
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
