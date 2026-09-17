@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# AI tooling (local only, not pushed to GitHub)
+.claude
+openspec
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
