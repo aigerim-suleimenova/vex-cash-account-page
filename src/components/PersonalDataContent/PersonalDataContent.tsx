@@ -10,8 +10,8 @@ const SECTION = 'd-flex flex-column align-items-start align-self-stretch'
 const SECTION_HEADER = 'd-flex flex-column gap-2 pt-3 pb-2 align-self-stretch'
 const SECTION_TITLE = 'm-0 fs-xl fw-bold text-break'
 const SECTION_ACCENT = 'h-2px align-self-stretch bg-primary'
-// Stacked at mobile/desktop/large-desktop, a same-row form field only at the tablet
-// tier — see design.md - Decisions for why this flips twice, not once.
+// Stacked at mobile (<768px)/desktop+ (992px+), a same-row form field only at the
+// tablet tier (768–991px) — see design.md - Decisions for why this flips twice, not once.
 const FIELD_ROW =
   'd-flex flex-column flex-md-row flex-lg-column align-items-start align-items-md-center align-items-lg-start justify-content-md-between gap-1 py-3 align-self-stretch border-bottom border-divider'
 const FIELD_LABEL = 'pdc-field-label text-body-secondary fw-normal fs-xs fs-md-sm text-md-end text-lg-start text-break'

@@ -1,23 +1,25 @@
 // Bootstrap variable overrides — what we're telling Bootstrap to be, before it compiles.
 // See openspec/changes/build-responsive-nav-page/design.md for where these values came from.
 
-// Breakpoints — the app's actual breakpoints (see design.md - Decisions), not Bootstrap's defaults.
+// Breakpoints — aligned to the spec's tier table (small mobile ≤567 / large mobile
+// 568–767 / tablet 768–991 / desktop 992–1199 / large desktop ≥1200), not Bootstrap's
+// own defaults. See design.md - Decisions for the breakpoint history.
 $grid-breakpoints: (
   xs: 0,
-  sm: 600px,
-  // small-mobile/mobile drawer-grid column-count split
-  md: 769px,
-  // drawer -> inline navigation mode split
-  lg: 1199px,
-  // content two-column field-style split (desktop stacked vs tablet row)
-  xl: 1440px // inline -> sidebar navigation mode split,
+  sm: 568px,
+  // small-mobile -> large-mobile tier start (still drawer nav)
+  md: 768px,
+  // tablet tier start; drawer -> inline navigation mode split
+  lg: 992px,
+  // desktop tier start; content two-column field-style split (tablet row -> stacked)
+  xl: 1200px // large-desktop tier start; inline -> sidebar navigation mode split,
 ) !default;
 
 $container-max-widths: (
-  sm: 600px,
-  md: 769px,
-  lg: 1199px,
-  xl: 1440px,
+  sm: 568px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
 ) !default;
 
 // Spacer scale extended with the exact px values used across the design (1rem = 16px root).

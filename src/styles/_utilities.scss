@@ -134,7 +134,7 @@ $_font-sizes: (
   text-decoration: underline;
 }
 
-// PersonalDataContent: at the tablet-only tier (769–1198px) the field label gets a
+// PersonalDataContent: at the tablet-only tier (768–991px) the field label gets a
 // fixed width so labels/values align in a column; Bootstrap's width utilities are
 // percentage-based and have no fixed-px, breakpoint-*range* variant for this.
 .pdc-field-label {
