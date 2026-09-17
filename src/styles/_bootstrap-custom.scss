@@ -1,0 +1,10 @@
+// Bootstrap customized to match the VEX CASH Figma reference frames exactly.
+// See openspec/changes/build-responsive-nav-page/design.md for the full history —
+// this file briefly used Bootstrap's own stock breakpoints/colors instead, then was
+// reverted back to this Figma-exact version at the user's request.
+//
+// Split into two parts: _variables.scss (what we tell Bootstrap to be, before it
+// compiles) and _utilities.scss (what we add on top of the compiled result).
+@import './variables';
+@import 'bootstrap/scss/bootstrap';
+@import './utilities';

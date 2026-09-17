@@ -1,0 +1,7 @@
+@import './styles/bootstrap-custom';
+
+// Bootstrap's reboot already resets margin/font/color/background on body;
+// #root's min-height is app-specific (Bootstrap has no equivalent).
+#root {
+  min-height: 100svh;
+}

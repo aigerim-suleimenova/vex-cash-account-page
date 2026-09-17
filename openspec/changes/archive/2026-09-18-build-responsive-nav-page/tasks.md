@@ -1,0 +1,44 @@
+## 1. Project Setup
+
+- [x] 1.1 Scaffold a Vite + React project in the repo root (scaffolded into a temp dir and merged in, since `openspec/`/`.claude/` already exist at root — see design.md - Decisions) and verify `npm run dev` serves a default page — verified: dev server responded HTTP 200 at http://localhost:5183/
+- [x] 1.2 Remove Vite/CRA boilerplate content (default logo, counter demo) from `src/App.jsx` and `src/index.css`, and verify the dev server still renders an empty shell with no console errors — verified: `App.jsx` reduced to an empty `#app-root` div, boilerplate CSS/assets/icon sprite removed, dev server hot-reloaded cleanly
+- [x] 1.3 Add Inter font (Google Fonts `<link>` in `index.html`, with `-apple-system, Roboto, Helvetica, sans-serif` fallback per the Figma export) and verify it loads in the browser network tab — verified: Google Fonts CSS endpoint returns HTTP 200; `body` font-family set with the fallback stack
+
+## 2. Shared Foundations
+
+- [x] 2.1 Define CSS custom properties for the design tokens used across breakpoints: colors (`#92C81C`, `#333`, `#777`, `#3B7A1C`, `#E9EAEA`, `#F1F1F1`, `#FAFDF7`, `#F8F9FA`), spacing/border-radius values, and the font-size/font-weight scale from design.md - Decisions (Typography tokens), and verify they're referenced (not hardcoded) in at least one component — verified: `src/styles/tokens.css` created and imported in `index.css`
+- [x] 2.2 Implement `useNavigationMode()` hook returning `'sidebar' | 'inline' | 'drawer'` from `matchMedia` at the `--bp-desktop` (769px) / `--bp-large-desktop` (1440px) breakpoints (see design.md - Decisions), and verify with a temporary console log that it updates on window resize — verified: `src/hooks/useNavigationMode.js`, module compiles cleanly via dev server; will be exercised visually in section 6/7
+- [x] 2.3 Build inline SVG icon components: `IconMenu`, `IconXCircle` (24px), `IconBanknote`, `IconUpload`, `IconUser`, `IconMail`, `IconLockKeyhole`, `IconGift`, `IconHandshake`, `IconLogOut` (20px), `IconMars` (14px), `IconLockKeyholeLarge`, `IconShieldCheck` (48px) — 13 components total (see design.md - Decisions for the confirmed per-item mapping and why lock-keyhole needs two size-specific components), and verify each renders at its native size without distortion — verified: `src/icons/index.jsx`, module compiles cleanly; visual check deferred to section 3/4 where each icon is actually used
+
+## 3. Header Component
+
+- [x] 3.1 Build `Header` with logo ("VEX"/"CASH" two-tone wordmark + tagline) and, at ≥769px, inline user-welcome + user-status on the right; verify against `large-desktop-content.html` and `desktop-content.html` for spacing/typography — verified visually at 1440px and 1199px (screenshots), matches source
+- [x] 3.2 Add the hamburger/close toggle button to `Header`, shown only in drawer mode, and verify it swaps icon and fires an `onToggle` callback when clicked — verified: icon swaps hamburger↔X on click at 768px and 567px (screenshots)
+- [x] 3.3 Add the separate bordered user-bar row (Hallo/name left, Status/Identifiziert right) shown only in drawer mode, below the header, and verify layout against `mobile-closed.html` — verified visually at 567px fresh-load (screenshot), matches source
+
+## 4. Navigation Component
+
+- [x] 4.1 Build the sidebar variant (260px fixed width, 7 items, active-item highlight) for sidebar mode, and verify visually against `large-desktop-content.html` including the active "Persönliche Daten" state — verified visually at 1440px (screenshot), matches source
+- [x] 4.2 Build the inline navigation grid variant ("Navigation" heading + 3-column card grid of all 7 items) for inline mode, and verify against `desktop-open.html` including spacing and the trailing filler cells on the last row (the "Kredite" card's highlighted styling in that frame is a static Figma artifact, not a functional default-selection state — do not reproduce it as an active item) — verified visually at 1199px (screenshot): CSS Grid naturally leaves the last row's trailing cells empty, no highlighted default item
+- [x] 4.3 Build the drawer navigation grid variant — 3-column grid at `--bp-small-mobile` (600px) and above, 2-column grid below it, per design.md - Decisions — and verify column counts against `mobile-open.html` (3 cols at 768px) and `small-mobile-open.html` (2 cols at 567px) — verified visually at both widths (screenshots), column counts and row order match
+- [x] 4.4 Wire nav item selection to call a shared `onSelect(itemId)` handler from all three variants, and verify selecting an item in each mode updates `activeItemId` in `App` — verified: clicking items in sidebar, inline grid, and drawer grid all update the displayed content correctly
+
+## 5. Content Components
+
+- [x] 5.1 Build `EmptyState` accepting an icon + message prop, and verify it renders the lock-icon "Inhalte geschützt — Wählen Sie ein Navigationsziel" variant and the shield-icon "Inhalte geschützt" variant per `account-content-page` spec — verified visually: lock variant at 1440px, shield variant at 567px (screenshots)
+- [x] 5.2 Build `PersonalDataContent` with the static field data (all 13 fields across 3 sections) as a two-column layout (left: Persönliche Daten; right: Familiäre Angaben + Beschäftigungsdaten) with stacked label-above-value fields for ≥1199px, and verify against `large-desktop-content.html` / `desktop-content.html` (this 1199px breakpoint is independent of the 769px/1440px navigation-mode breakpoints from 2.2 — see design.md - Context) — verified visually at 1440px and 1199px (screenshots)
+- [x] 5.3 Add the tablet field style (label/value same row, same two columns) via CSS for 769–1198px, and verify against `tablet-content.html` — verified visually at 991px (screenshot); selection persisted correctly when resizing down from 1199px
+- [x] 5.4 Add the mobile/small-mobile field style (stacked label-above-value again, same two columns, tighter padding and smaller label size) via CSS for ≤768px, and verify against `small-mobile-content.html` — note there is no single-column layout anywhere in the source designs; the two columns stay side by side at every reference width — verified visually at 768px and 567px (screenshots); this corrected an earlier spec error that wrongly called for a single-column mobile layout (see design.md - Context)
+- [x] 5.5 Add the inline-mode "← Navigation" back link at the top of the content area (per design.md - Decisions), and verify it's absent in sidebar and drawer modes — verified: visible and functional at 1199px (screenshot, click returns to nav grid), absent at 1440px and 768px
+
+## 6. App Integration
+
+- [x] 6.1 Wire `App` state (`activeItemId`, `drawerOpen`) and compose `Header` + navigation variant (by mode) + content area (`EmptyState` or `PersonalDataContent`, by `activeItemId`), and verify the full flow: select "Persönliche Daten" → content shows; select any other item → empty state shows — verified at 1440px: selecting "Persönliche Daten" shows content, selecting "Kredite" shows lock empty state
+- [x] 6.2 Verify selection persists when resizing the browser across the 768/769px and 1440px breakpoints (manually, in devtools responsive mode), per the `responsive-navigation` spec's persistence requirement — verified: selected "Persönliche Daten" at 1199px, resized down through 991px and 768px, content remained shown at every step (screenshots)
+- [x] 6.3 Verify the mobile drawer open/select/close cycle end-to-end: closed placeholder → tap hamburger → grid shows → select item → drawer closes and content shows → toggle hamburger again → X closes back to content (not placeholder, since a destination is now selected) — verified full cycle at 768px and the open/close-without-reselecting path at 567px (screenshots)
+
+## 7. Cross-Breakpoint QA
+
+- [x] 7.1 Manually check the page at each of the 5 reference widths (1440, 1199, 991, 768, 567) against the corresponding Figma export files and confirm no layout regressions — verified via screenshots at all 5 widths plus interaction flows (nav selection, drawer open/close, back-to-navigation); all match source frames
+- [x] 7.2 Confirm no horizontal scrollbar appears at any width from 320px to 1920px — found and fixed a real overflow bug: flex/grid children (`.nav-item`, `.pdc__column`, `.main-content`, `.content-with-back`) lacked `min-width: 0`, so long labels/words at 320px pushed layout 48–124px wider than the viewport. Fixed in `Navigation.css`, `PersonalDataContent.css`, `App.css`; re-verified 320px, 567px, 768px, 769px, 991px, 1199px, 1440px, and 1920px all report `scrollWidth === clientWidth`
+- [x] 7.3 Run `npm run build` and verify it completes without errors or warnings — verified: `npm run build` completed in 1.13s, 32 modules transformed, no errors or warnings (dist/index.html 0.73kB, CSS 7.45kB, JS 206.25kB)

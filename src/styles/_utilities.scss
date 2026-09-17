@@ -1,0 +1,145 @@
+// Everything we're adding on top of compiled Bootstrap — brand tokens Bootstrap has no
+// slot for, and small extensions for the handful of values/behaviors its utility set
+// doesn't cover. Everything else in the app is built from stock Bootstrap utilities.
+
+// --color-page-bg has no entry here: Bootstrap's $gray-100 (bg-light) is already an
+// exact #f8f9fa match.
+:root {
+  --color-accent-dark: #3b7a1c;
+  --color-divider: #f1f1f1;
+  --color-active-bg: #fafdf7;
+}
+
+// Font-size utilities for the design's actual type scale — Bootstrap's fs-1..6 are
+// sized for headings (h1-h6) and don't cover this app's small, non-heading text sizes.
+// Generated per breakpoint (like Bootstrap's own utilities) because one value in this
+// design — PersonalDataContent's field value — is non-monotonic across breakpoints
+// (15px, then 14px at the tablet tier only, then 15px again), the same "dip in the
+// middle" pattern as that field's flex-direction flip further down.
+$_font-sizes: (
+  'base': $font-size-base,
+  // tracks whatever the body's actual default size is — explicit "reset" utility
+  '2xs': 0.6875rem,
+  // 11px
+  'xs': 0.75rem,
+  // 12px
+  'sm': 0.8125rem,
+  // 13px
+  'md': 0.9375rem,
+  // 15px
+  'lg': 1rem,
+  // 16px
+  'xl': 1.125rem,
+  // 18px
+  '3xl': 1.625rem // 26px,
+);
+
+@each $name, $size in $_font-sizes {
+  .fs-#{$name} {
+    font-size: $size;
+  }
+}
+
+@each $bp-name, $bp-value in $grid-breakpoints {
+  @if $bp-value > 0 {
+    @include media-breakpoint-up($bp-name) {
+      @each $name, $size in $_font-sizes {
+        .fs-#{$bp-name}-#{$name} {
+          font-size: $size;
+        }
+      }
+    }
+  }
+}
+
+// Bootstrap ships fw-light/normal/medium/semibold/bold (300-700); the logo wordmark needs 900.
+.fw-black {
+  font-weight: 900;
+}
+
+// Two Figma-exact 2px gaps (logo/tagline stack, user-welcome/status stacks) — smaller
+// than the smallest spacer step (4px), and not worth adding a scale step for two uses.
+.gap-2px {
+  gap: 2px;
+}
+
+// One Figma-exact 14px vertical padding on sidebar rows — doesn't land on the 4px grid.
+.py-14px {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+// Brand color with no Bootstrap theme-color slot (see the :root block above).
+.text-accent-dark {
+  color: var(--color-accent-dark) !important;
+}
+
+// $border-color (#E9EAEA) as a text/icon color — used by EmptyState's shield-icon
+// variant, which is lighter than any Bootstrap text-color utility provides.
+.text-border-color {
+  color: var(--bs-border-color) !important;
+}
+
+// Active nav-item background (sidebar row and nav-grid card variants).
+.bg-active {
+  background-color: var(--color-active-bg) !important;
+}
+
+// Nav-grid cards and field dividers use a lighter border than the header/sidebar's
+// $border-color — overrides Bootstrap's .border utility color for just these.
+.border-divider {
+  border-color: var(--color-divider) !important;
+}
+
+// A transparent, borderless icon button (header hamburger/close toggle) with a
+// hover background — Bootstrap's .btn always implies a filled/outlined style.
+.btn-plain {
+  border: 0;
+  background: transparent;
+  // <button> doesn't inherit color from its ancestors by default (browser UA
+  // stylesheet sets it to `buttontext`) — needed so the toggle icon's `currentColor`
+  // resolves to the surrounding text color instead of black.
+  color: inherit;
+
+  &:hover {
+    background: var(--bs-gray-100);
+  }
+}
+
+// Sidebar's fixed width — a genuine one-off, not a reusable scale value.
+.w-sidebar {
+  width: 260px;
+}
+
+// Section accent underline (PersonalDataContent) — paired with .bg-primary, which is
+// already an exact match for the accent color.
+.h-2px {
+  height: 2px;
+}
+
+// Bootstrap has no min-width:0 utility; needed wherever a flex child must be
+// allowed to shrink below its content's natural width (prevents overflow at
+// narrow viewports — see design.md - Risks).
+.min-w-0 {
+  min-width: 0;
+}
+
+.min-vh-svh {
+  min-height: 100svh;
+}
+
+// Hover-only underline for the inline-mode "← Navigation" link (its color comes
+// from .text-accent-dark above, not Bootstrap's link-hover-color).
+.link-hover-underline:hover {
+  text-decoration: underline;
+}
+
+// PersonalDataContent: at the tablet-only tier (769–1198px) the field label gets a
+// fixed width so labels/values align in a column; Bootstrap's width utilities are
+// percentage-based and have no fixed-px, breakpoint-*range* variant for this.
+.pdc-field-label {
+  @include media-breakpoint-only(md) {
+    width: 160px;
+    flex-shrink: 0;
+  }
+}

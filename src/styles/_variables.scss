@@ -1,0 +1,60 @@
+// Bootstrap variable overrides — what we're telling Bootstrap to be, before it compiles.
+// See openspec/changes/build-responsive-nav-page/design.md for where these values came from.
+
+// Breakpoints — the app's actual breakpoints (see design.md - Decisions), not Bootstrap's defaults.
+$grid-breakpoints: (
+  xs: 0,
+  sm: 600px,
+  // small-mobile/mobile drawer-grid column-count split
+  md: 769px,
+  // drawer -> inline navigation mode split
+  lg: 1199px,
+  // content two-column field-style split (desktop stacked vs tablet row)
+  xl: 1440px // inline -> sidebar navigation mode split,
+) !default;
+
+$container-max-widths: (
+  sm: 600px,
+  md: 769px,
+  lg: 1199px,
+  xl: 1440px,
+) !default;
+
+// Spacer scale extended with the exact px values used across the design (1rem = 16px root).
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: 0.25rem,
+  // 4px
+  2: 0.5rem,
+  // 8px
+  3: 0.75rem,
+  // 12px
+  4: 1rem,
+  // 16px
+  5: 1.25rem,
+  // 20px
+  6: 1.5rem,
+  // 24px
+  7: 2rem,
+  // 32px
+  8: 2.5rem,
+  // 40px
+  9: 3rem // 48px,
+) !default;
+
+// Brand colors
+$primary: #92c81c;
+$body-color: #333333;
+$body-secondary-color: #777777;
+$body-bg: #ffffff;
+$border-color: #e9eaea;
+
+$font-family-sans-serif: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
+$font-size-base: 0.875rem; // 14px
+$border-radius: 0.5rem; // 8px
+$link-decoration: none;
+// Nav links read as plain text by default (color comes from an explicit .text-accent-dark
+// on the active item, not Bootstrap's link-color mechanism) — see design.md - Decisions.
+$link-color: $body-color;
+$link-hover-color: $body-color;
