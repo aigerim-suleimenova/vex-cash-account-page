@@ -13,18 +13,21 @@ export interface InlineNavProps extends React.HTMLAttributes<HTMLElement> {
   activeItemId: string | null
 }
 
-const ROOT = 'd-flex flex-column align-items-start gap-6 flex-fill align-self-stretch p-8'
-const HEADING = 'm-0 fs-xl fw-bold'
-const GRID = 'row row-cols-3 g-2 w-100'
+const STYLES = {
+  root: 'd-flex flex-column align-items-start gap-6 flex-fill align-self-stretch p-8',
+  heading: 'm-0 fs-xl fw-bold',
+  grid: 'row row-cols-3 g-2 w-100',
+  col: 'col',
+} as const
 
 const InlineNav: DynamicRefForwardingComponent<'div', InlineNavProps> = React.forwardRef<HTMLElement, InlineNavProps>(
   ({ activeItemId, className, as: Component = 'div', ...rest }, ref) => {
     return (
-      <Component ref={ref} className={clsx(className, ROOT)} {...rest}>
-        <h2 className={clsx(HEADING)}>Navigation</h2>
-        <div className={clsx(GRID)} role="navigation" aria-label="Primary">
+      <Component ref={ref} className={clsx(className, STYLES.root)} {...rest}>
+        <h2 className={STYLES.heading}>Navigation</h2>
+        <div className={STYLES.grid} role="navigation" aria-label="Primary">
           {NAV_ITEMS.map((item) => (
-            <div className={clsx('col')} key={item.id}>
+            <div className={STYLES.col} key={item.id}>
               <NavItem item={item} active={item.id === activeItemId} variant="card" />
             </div>
           ))}

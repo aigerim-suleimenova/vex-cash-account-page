@@ -14,16 +14,19 @@ export interface DrawerNavProps extends React.HTMLAttributes<HTMLElement> {
   onNavigate: () => void
 }
 
-const ROOT = 'd-flex flex-column align-items-start align-self-stretch flex-fill p-4'
-const GRID = 'row row-cols-2 row-cols-sm-3 g-2 w-100'
+const STYLES = {
+  root: 'd-flex flex-column align-items-start align-self-stretch flex-fill p-4',
+  grid: 'row row-cols-2 row-cols-sm-3 g-2 w-100',
+  col: 'col',
+} as const
 
 const DrawerNav: DynamicRefForwardingComponent<'div', DrawerNavProps> = React.forwardRef<HTMLElement, DrawerNavProps>(
   ({ activeItemId, onNavigate, className, as: Component = 'div', ...rest }, ref) => {
     return (
-      <Component ref={ref} className={clsx(className, ROOT)} {...rest}>
-        <div className={clsx(GRID)} role="navigation" aria-label="Primary">
+      <Component ref={ref} className={clsx(className, STYLES.root)} {...rest}>
+        <div className={STYLES.grid} role="navigation" aria-label="Primary">
           {NAV_ITEMS.map((item) => (
-            <div className={clsx('col')} key={item.id}>
+            <div className={STYLES.col} key={item.id}>
               <NavItem
                 item={item}
                 active={item.id === activeItemId}

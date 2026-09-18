@@ -1,5 +1,4 @@
 import { useState, type ReactNode } from 'react'
-import clsx from 'clsx'
 import { Outlet, Link, useParams } from 'react-router'
 import { useNavigationMode } from '../hooks/useNavigationMode'
 import { Header } from '../components/Header/Header'
@@ -7,14 +6,16 @@ import { SidebarNav } from '../components/Navigation/SidebarNav'
 import { InlineNav } from '../components/Navigation/InlineNav'
 import { DrawerNav } from '../components/Navigation/DrawerNav'
 
-const APP_ROOT = 'd-flex flex-column min-vh-svh bg-white'
-const LAYOUT_WRAPPER = 'd-flex align-items-start flex-fill align-self-stretch'
-// Sidebar mode's <main> renders the Outlet directly; inline/drawer modes need
-// flex-column since they conditionally stack a nav grid or back-link above it.
-const MAIN_SIDEBAR = 'd-flex flex-fill align-self-stretch min-w-0 bg-white'
-const MAIN_STACKED = 'd-flex flex-column flex-fill align-self-stretch min-w-0 bg-white'
-const CONTENT_WITH_BACK_LINK = 'd-flex flex-column flex-fill align-self-stretch min-w-0'
-const BACK_LINK = 'link-hover-underline align-self-start mt-4 ms-4 text-accent-dark fw-medium'
+const STYLES = {
+  appRoot: 'd-flex flex-column min-vh-svh bg-white',
+  layoutWrapper: 'd-flex align-items-start flex-fill align-self-stretch',
+  // Sidebar mode's <main> renders the Outlet directly; inline/drawer modes need
+  // flex-column since they conditionally stack a nav grid or back-link above it.
+  mainSidebar: 'd-flex flex-fill align-self-stretch min-w-0 bg-white',
+  mainStacked: 'd-flex flex-column flex-fill align-self-stretch min-w-0 bg-white',
+  contentWithBackLink: 'd-flex flex-column flex-fill align-self-stretch min-w-0',
+  backLink: 'link-hover-underline align-self-start mt-4 ms-4 text-accent-dark fw-medium',
+} as const
 
 export function RootLayout() {
   const mode = useNavigationMode()
@@ -30,22 +31,22 @@ export function RootLayout() {
 
   if (mode === 'sidebar') {
     body = (
-      <div className={clsx(LAYOUT_WRAPPER)}>
+      <div className={STYLES.layoutWrapper}>
         <SidebarNav activeItemId={activeItemId} />
-        <main className={clsx(MAIN_SIDEBAR)}>
+        <main className={STYLES.mainSidebar}>
           <Outlet context={mode} />
         </main>
       </div>
     )
   } else if (mode === 'inline') {
     body = (
-      <div className={clsx(LAYOUT_WRAPPER)}>
-        <main className={clsx(MAIN_STACKED)}>
+      <div className={STYLES.layoutWrapper}>
+        <main className={STYLES.mainStacked}>
           {activeItemId === null ? (
             <InlineNav activeItemId={activeItemId} />
           ) : (
-            <div className={clsx(CONTENT_WITH_BACK_LINK)}>
-              <Link to="/" className={clsx(BACK_LINK)}>
+            <div className={STYLES.contentWithBackLink}>
+              <Link to="/" className={STYLES.backLink}>
                 ← Navigation
               </Link>
               <Outlet context={mode} />
@@ -56,8 +57,8 @@ export function RootLayout() {
     )
   } else {
     body = (
-      <div className={clsx(LAYOUT_WRAPPER)}>
-        <main className={clsx(MAIN_STACKED)}>
+      <div className={STYLES.layoutWrapper}>
+        <main className={STYLES.mainStacked}>
           {drawerOpen ? (
             <DrawerNav activeItemId={activeItemId} onNavigate={() => setDrawerOpen(false)} />
           ) : (
@@ -69,7 +70,7 @@ export function RootLayout() {
   }
 
   return (
-    <div className={clsx(APP_ROOT)}>
+    <div className={STYLES.appRoot}>
       <Header mode={mode} drawerOpen={drawerOpen} onToggleDrawer={handleToggleDrawer} />
       {body}
     </div>

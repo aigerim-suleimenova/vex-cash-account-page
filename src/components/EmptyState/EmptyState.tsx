@@ -4,6 +4,8 @@ import type { DynamicRefForwardingComponent } from '../../types/polymorphic'
 import type { IconComponent } from '../../data/navItems'
 import { IconLockKeyholeLarge, IconShieldCheck } from '../Icons'
 
+// Per-variant data (icon + text + its own accent color), not a reusable style token —
+// kept separate from STYLES rather than folded in, since it's a variant lookup table.
 const VARIANTS: Record<'lock' | 'shield', { Icon: IconComponent; className: string; text: string }> = {
   lock: {
     Icon: IconLockKeyholeLarge,
@@ -30,17 +32,19 @@ export interface EmptyStateProps extends React.HTMLAttributes<HTMLElement> {
   variant: EmptyStateVariant
 }
 
-const ROOT = 'd-flex flex-column justify-content-center align-items-center gap-4 flex-fill align-self-stretch p-9'
-const TEXT = 'm-0 text-body-secondary text-center'
+const STYLES = {
+  root: 'd-flex flex-column justify-content-center align-items-center gap-4 flex-fill align-self-stretch p-9',
+  text: 'm-0 text-body-secondary text-center',
+} as const
 
 const EmptyState: DynamicRefForwardingComponent<'div', EmptyStateProps> = React.forwardRef<HTMLElement, EmptyStateProps>(
   ({ variant, className, as: Component = 'div', ...rest }, ref) => {
     const { Icon, className: iconClassName, text } = VARIANTS[variant]
 
     return (
-      <Component ref={ref} className={clsx(className, ROOT)} {...rest}>
-        <Icon className={clsx(iconClassName)} />
-        <p className={clsx(TEXT)}>{text}</p>
+      <Component ref={ref} className={clsx(className, STYLES.root)} {...rest}>
+        <Icon className={iconClassName} />
+        <p className={STYLES.text}>{text}</p>
       </Component>
     )
   },

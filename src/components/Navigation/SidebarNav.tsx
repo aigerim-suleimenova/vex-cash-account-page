@@ -13,14 +13,16 @@ export interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   activeItemId: string | null
 }
 
-const SIDEBAR = 'd-flex flex-column align-items-start align-self-stretch flex-shrink-0 w-sidebar border-end bg-white'
+const STYLES = {
+  sidebar: 'd-flex flex-column align-items-start align-self-stretch flex-shrink-0 w-sidebar border-end bg-white',
+} as const
 
 const SidebarNav: DynamicRefForwardingComponent<'nav', SidebarNavProps> = React.forwardRef<
   HTMLElement,
   SidebarNavProps
 >(({ activeItemId, className, as: Component = 'nav', ...rest }, ref) => {
   return (
-    <Component ref={ref} className={clsx(className, SIDEBAR)} aria-label="Primary" {...rest}>
+    <Component ref={ref} className={clsx(className, STYLES.sidebar)} aria-label="Primary" {...rest}>
       {NAV_ITEMS.map((item) => (
         <NavItem key={item.id} item={item} active={item.id === activeItemId} variant="row" />
       ))}
