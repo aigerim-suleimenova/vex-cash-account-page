@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { Link } from 'react-router'
 import type { NavItem as NavItemData } from '../../data/navItems'
 
@@ -20,7 +21,7 @@ const LABEL_INACTIVE = 'flex-fill text-truncate fw-medium'
 export function NavItem({ item, active, variant, useDrawerIcon, onNavigate }: NavItemProps) {
   const Icon = useDrawerIcon && item.DrawerIcon ? item.DrawerIcon : item.Icon
   const stroke = active ? 'var(--color-accent-dark)' : '#777777'
-  const linkClass = `${BASE} ${VARIANT_CLASSES[variant]}${active ? ' bg-active' : ''}`
+  const linkClass = clsx(BASE, VARIANT_CLASSES[variant], active && 'bg-active')
 
   return (
     <Link
