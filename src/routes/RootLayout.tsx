@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react'
+import clsx from 'clsx'
 import { Outlet, Link, useParams } from 'react-router'
 import { useNavigationMode } from '../hooks/useNavigationMode'
 import { Header } from '../components/Header/Header'
@@ -29,22 +30,22 @@ export function RootLayout() {
 
   if (mode === 'sidebar') {
     body = (
-      <div className={LAYOUT_WRAPPER}>
+      <div className={clsx(LAYOUT_WRAPPER)}>
         <SidebarNav activeItemId={activeItemId} />
-        <main className={MAIN_SIDEBAR}>
+        <main className={clsx(MAIN_SIDEBAR)}>
           <Outlet context={mode} />
         </main>
       </div>
     )
   } else if (mode === 'inline') {
     body = (
-      <div className={LAYOUT_WRAPPER}>
-        <main className={MAIN_STACKED}>
+      <div className={clsx(LAYOUT_WRAPPER)}>
+        <main className={clsx(MAIN_STACKED)}>
           {activeItemId === null ? (
             <InlineNav activeItemId={activeItemId} />
           ) : (
-            <div className={CONTENT_WITH_BACK_LINK}>
-              <Link to="/" className={BACK_LINK}>
+            <div className={clsx(CONTENT_WITH_BACK_LINK)}>
+              <Link to="/" className={clsx(BACK_LINK)}>
                 ← Navigation
               </Link>
               <Outlet context={mode} />
@@ -55,8 +56,8 @@ export function RootLayout() {
     )
   } else {
     body = (
-      <div className={LAYOUT_WRAPPER}>
-        <main className={MAIN_STACKED}>
+      <div className={clsx(LAYOUT_WRAPPER)}>
+        <main className={clsx(MAIN_STACKED)}>
           {drawerOpen ? (
             <DrawerNav activeItemId={activeItemId} onNavigate={() => setDrawerOpen(false)} />
           ) : (
@@ -68,7 +69,7 @@ export function RootLayout() {
   }
 
   return (
-    <div className={APP_ROOT}>
+    <div className={clsx(APP_ROOT)}>
       <Header mode={mode} drawerOpen={drawerOpen} onToggleDrawer={handleToggleDrawer} />
       {body}
     </div>

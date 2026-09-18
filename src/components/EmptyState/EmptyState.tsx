@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import type { IconComponent } from '../../data/navItems'
 import { IconLockKeyholeLarge, IconShieldCheck } from '../Icons'
 
@@ -23,14 +24,15 @@ interface EmptyStateProps {
 }
 
 const ROOT = 'd-flex flex-column justify-content-center align-items-center gap-4 flex-fill align-self-stretch p-9'
+const TEXT = 'm-0 text-body-secondary text-center'
 
 export function EmptyState({ variant }: EmptyStateProps) {
   const { Icon, className, text } = VARIANTS[variant]
 
   return (
-    <div className={ROOT}>
-      <Icon className={className} />
-      <p className="m-0 text-body-secondary text-center">{text}</p>
+    <div className={clsx(ROOT)}>
+      <Icon className={clsx(className)} />
+      <p className={clsx(TEXT)}>{text}</p>
     </div>
   )
 }

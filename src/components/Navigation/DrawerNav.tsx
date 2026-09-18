@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { NAV_ITEMS } from '../../data/navItems'
 import { NavItem } from './NavItem'
 
@@ -11,10 +12,10 @@ const GRID = 'row row-cols-2 row-cols-sm-3 g-2 w-100'
 
 export function DrawerNav({ activeItemId, onNavigate }: DrawerNavProps) {
   return (
-    <div className={ROOT}>
-      <div className={GRID} role="navigation" aria-label="Primary">
+    <div className={clsx(ROOT)}>
+      <div className={clsx(GRID)} role="navigation" aria-label="Primary">
         {NAV_ITEMS.map((item) => (
-          <div className="col" key={item.id}>
+          <div className={clsx('col')} key={item.id}>
             <NavItem
               item={item}
               active={item.id === activeItemId}

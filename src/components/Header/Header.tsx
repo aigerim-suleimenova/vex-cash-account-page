@@ -8,6 +8,7 @@ interface HeaderProps {
   onToggleDrawer: () => void
 }
 
+const HEADER = 'd-flex flex-column border-bottom bg-white'
 const CONTENT_ROW = 'd-flex justify-content-between align-items-center py-4 px-6 px-md-8'
 const LOGO_GROUP = 'd-flex flex-column align-items-start gap-2px'
 const LOGO_ROW = 'd-flex align-items-baseline gap-2px fs-3xl fw-black'
@@ -26,24 +27,24 @@ export function Header({ mode, drawerOpen, onToggleDrawer }: HeaderProps) {
   const isDrawerMode = mode === 'drawer'
 
   return (
-    <header className="d-flex flex-column border-bottom bg-white">
-      <div className={CONTENT_ROW}>
-        <div className={LOGO_GROUP}>
-          <div className={LOGO_ROW}>
-            <span className="text-primary">VEX</span>
+    <header className={clsx(HEADER)}>
+      <div className={clsx(CONTENT_ROW)}>
+        <div className={clsx(LOGO_GROUP)}>
+          <div className={clsx(LOGO_ROW)}>
+            <span className={clsx('text-primary')}>VEX</span>
             <span>CASH</span>
           </div>
-          <div className={TAGLINE}>Einfach 60 Tage Geld leihen</div>
+          <div className={clsx(TAGLINE)}>Einfach 60 Tage Geld leihen</div>
         </div>
 
         {!isDrawerMode && (
-          <div className={STAT_GROUP}>
-            <div className={STAT_BLOCK}>
-              <div className={STAT_CAPTION}>Hallo,</div>
-              <div className={STAT_VALUE}>John Smith</div>
+          <div className={clsx(STAT_GROUP)}>
+            <div className={clsx(STAT_BLOCK)}>
+              <div className={clsx(STAT_CAPTION)}>Hallo,</div>
+              <div className={clsx(STAT_VALUE)}>John Smith</div>
             </div>
-            <div className={STAT_BLOCK}>
-              <div className={STAT_CAPTION}>Status Ihrer Identifizierung</div>
+            <div className={clsx(STAT_BLOCK)}>
+              <div className={clsx(STAT_CAPTION)}>Status Ihrer Identifizierung</div>
               <div className={clsx(STAT_VALUE, 'text-accent-dark')}>Identifiziert</div>
             </div>
           </div>
@@ -52,7 +53,7 @@ export function Header({ mode, drawerOpen, onToggleDrawer }: HeaderProps) {
         {isDrawerMode && (
           <button
             type="button"
-            className={TOGGLE_BUTTON}
+            className={clsx(TOGGLE_BUTTON)}
             onClick={onToggleDrawer}
             aria-label={drawerOpen ? 'Navigation schließen' : 'Navigation öffnen'}
             aria-expanded={drawerOpen}
@@ -63,13 +64,13 @@ export function Header({ mode, drawerOpen, onToggleDrawer }: HeaderProps) {
       </div>
 
       {isDrawerMode && (
-        <div className={USER_BAR}>
-          <div className={BAR_BLOCK}>
-            <div className={BAR_CAPTION}>Hallo,</div>
-            <div className={STAT_VALUE}>John Smith</div>
+        <div className={clsx(USER_BAR)}>
+          <div className={clsx(BAR_BLOCK)}>
+            <div className={clsx(BAR_CAPTION)}>Hallo,</div>
+            <div className={clsx(STAT_VALUE)}>John Smith</div>
           </div>
-          <div className={BAR_BLOCK_END}>
-            <div className={BAR_CAPTION}>Status</div>
+          <div className={clsx(BAR_BLOCK_END)}>
+            <div className={clsx(BAR_CAPTION)}>Status</div>
             <div className={clsx(STAT_VALUE, 'text-accent-dark')}>Identifiziert</div>
           </div>
         </div>

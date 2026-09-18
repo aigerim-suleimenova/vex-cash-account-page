@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { IconMars } from '../Icons'
 import { PERSONAL_DATA_SECTIONS, type PersonalDataSection } from '../../data/personalData'
 
@@ -19,15 +20,15 @@ const FIELD_VALUE = 'd-flex align-items-center gap-2 fw-semibold fs-md fs-md-bas
 
 function Section({ section }: { section: PersonalDataSection }) {
   return (
-    <div className={SECTION}>
-      <div className={SECTION_HEADER}>
-        <h3 className={SECTION_TITLE}>{section.title}</h3>
-        <div className={SECTION_ACCENT} />
+    <div className={clsx(SECTION)}>
+      <div className={clsx(SECTION_HEADER)}>
+        <h3 className={clsx(SECTION_TITLE)}>{section.title}</h3>
+        <div className={clsx(SECTION_ACCENT)} />
       </div>
       {section.fields.map((field) => (
-        <div className={FIELD_ROW} key={field.label}>
-          <div className={FIELD_LABEL}>{field.label}</div>
-          <div className={FIELD_VALUE}>
+        <div className={clsx(FIELD_ROW)} key={field.label}>
+          <div className={clsx(FIELD_LABEL)}>{field.label}</div>
+          <div className={clsx(FIELD_VALUE)}>
             {field.icon === 'mars' && <IconMars />}
             <span>{field.value}</span>
           </div>
@@ -41,11 +42,11 @@ export function PersonalDataContent() {
   const [left, ...right] = PERSONAL_DATA_SECTIONS
 
   return (
-    <div className={ROOT}>
-      <div className={COLUMN_LEFT}>
+    <div className={clsx(ROOT)}>
+      <div className={clsx(COLUMN_LEFT)}>
         <Section section={left} />
       </div>
-      <div className={COLUMN_RIGHT}>
+      <div className={clsx(COLUMN_RIGHT)}>
         {right.map((section) => (
           <Section key={section.id} section={section} />
         ))}
