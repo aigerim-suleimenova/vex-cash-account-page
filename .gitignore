@@ -12,6 +12,15 @@ dist
 dist-ssr
 *.local
 
+# Env files
+.env
+.env.*
+!.env.example
+
+# Coverage / cache
+coverage
+.eslintcache
+
 # AI tooling (local only, not pushed to GitHub)
 .claude
 openspec
