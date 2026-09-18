@@ -143,3 +143,10 @@ $_font-sizes: (
     flex-shrink: 0;
   }
 }
+
+// PersonalDataContent: the last field row in each section has no divider.
+// Scoped to this class (not .border-divider directly) so it doesn't also
+// strip the border off whichever NavItem card happens to render last in a grid.
+.pdc-field-row:last-child {
+  border-bottom: none;
+}

@@ -13,7 +13,7 @@ const SECTION_ACCENT = 'h-2px align-self-stretch bg-primary'
 // Stacked at mobile (<768px)/desktop+ (992px+), a same-row form field only at the
 // tablet tier (768–991px) — see design.md - Decisions for why this flips twice, not once.
 const FIELD_ROW =
-  'd-flex flex-column flex-md-row flex-lg-column align-items-start align-items-md-center align-items-lg-start justify-content-md-between gap-1 py-3 align-self-stretch border-bottom border-divider'
+  'pdc-field-row d-flex flex-column flex-md-row flex-lg-column align-items-start align-items-md-center align-items-lg-start justify-content-md-between gap-1 py-3 align-self-stretch border-bottom border-divider'
 const FIELD_LABEL = 'pdc-field-label text-body-secondary fw-normal fs-xs fs-md-sm text-md-end text-lg-start text-break'
 const FIELD_VALUE = 'd-flex align-items-center gap-2 fw-semibold fs-md fs-md-base fs-lg-md ps-md-6 ps-lg-0 text-break'
 
@@ -24,12 +24,8 @@ function Section({ section }: { section: PersonalDataSection }) {
         <h3 className={SECTION_TITLE}>{section.title}</h3>
         <div className={SECTION_ACCENT} />
       </div>
-      {section.fields.map((field, index) => (
-        <div
-          className={FIELD_ROW}
-          key={field.label}
-          style={index === section.fields.length - 1 ? { borderBottom: 'none' } : undefined}
-        >
+      {section.fields.map((field) => (
+        <div className={FIELD_ROW} key={field.label}>
           <div className={FIELD_LABEL}>{field.label}</div>
           <div className={FIELD_VALUE}>
             {field.icon === 'mars' && <IconMars />}
