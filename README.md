@@ -86,27 +86,3 @@ src/
 Each component lives in its own folder; there's no `shared/` folder — the codebase
 deliberately doesn't have a generic "reusable components" bucket, since nothing here
 (other than icons, which get their own folder) is used in more than one place.
-
-## Testing
-
-No automated test suite. This was tried (Vitest + React Testing Library, 19 tests
-across 5 files) and then deliberately removed — for a static, backend-less demo whose
-correctness was already verified by hand against the Figma reference frames at every
-breakpoint from 320px to 1920px throughout development, the tests were answering a
-generic checklist rather than a real gap the project had hit.
-
-## Known gaps
-
-Checked directly against a "production-ready checklist" during development, so this is
-recorded rather than left implicit:
-
-- **No service/API layer.** Nothing to fetch — see "No backend" above. Would be
-  fabricated scope for what this app actually does.
-- **No forms.** The personal-data page is read-only display, not an editable form.
-- **No loading/error states.** Same root cause as no service layer — nothing async to
-  wait on or fail.
-- **Accessibility is a baseline, not an audit.** `aria-current`, `aria-expanded`,
-  `aria-hidden` on decorative icons, and `role="navigation"` are all correct. Not done:
-  keyboard focus management (no Escape-to-close on the mobile drawer), and color
-  contrast hasn't been formally verified — the brand green (`#92C81C`) is visually
-  light and may not pass WCAG AA at small text sizes.
