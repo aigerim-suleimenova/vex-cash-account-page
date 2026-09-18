@@ -27,4 +27,6 @@ export const Icon = forwardRef<SVGSVGElement, IconWrapperProps>(function Icon(
   )
 })
 
+Icon.displayName = 'Icon'
+
 export type IconProps = Omit<SVGProps<SVGSVGElement>, 'width' | 'height' | 'viewBox'>
