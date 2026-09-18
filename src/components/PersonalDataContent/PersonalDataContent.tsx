@@ -1,4 +1,6 @@
+import * as React from 'react'
 import clsx from 'clsx'
+import type { DynamicRefForwardingComponent } from '../../types/polymorphic'
 import { IconMars } from '../Icons'
 import { PERSONAL_DATA_SECTIONS, type PersonalDataSection } from '../../data/personalData'
 
@@ -18,6 +20,8 @@ const FIELD_ROW =
 const FIELD_LABEL = 'pdc-field-label text-body-secondary fw-normal fs-xs fs-md-sm text-md-end text-lg-start text-break'
 const FIELD_VALUE = 'd-flex align-items-center gap-2 fw-semibold fs-md fs-md-base fs-lg-md ps-md-6 ps-lg-0 text-break'
 
+// Private to this file — not part of the public API, so it doesn't need forwardRef/as
+// itself; only PersonalDataContent's own root is a consumer-facing render target.
 function Section({ section }: { section: PersonalDataSection }) {
   return (
     <div className={clsx(SECTION)}>
@@ -38,11 +42,21 @@ function Section({ section }: { section: PersonalDataSection }) {
   )
 }
 
-export function PersonalDataContent() {
+export interface PersonalDataContentProps extends React.HTMLAttributes<HTMLElement> {
+  /**
+   * Element used to render the component.
+   */
+  as?: React.ElementType | undefined
+}
+
+const PersonalDataContent: DynamicRefForwardingComponent<'div', PersonalDataContentProps> = React.forwardRef<
+  HTMLElement,
+  PersonalDataContentProps
+>(({ className, as: Component = 'div', ...rest }, ref) => {
   const [left, ...right] = PERSONAL_DATA_SECTIONS
 
   return (
-    <div className={clsx(ROOT)}>
+    <Component ref={ref} className={clsx(className, ROOT)} {...rest}>
       <div className={clsx(COLUMN_LEFT)}>
         <Section section={left} />
       </div>
@@ -51,6 +65,10 @@ export function PersonalDataContent() {
           <Section key={section.id} section={section} />
         ))}
       </div>
-    </div>
+    </Component>
   )
-}
+})
+
+PersonalDataContent.displayName = 'PersonalDataContent'
+
+export { PersonalDataContent }

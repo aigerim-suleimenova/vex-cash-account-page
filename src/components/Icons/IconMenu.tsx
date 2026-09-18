@@ -1,8 +1,12 @@
+import { forwardRef } from 'react'
 import { Icon, type IconProps } from './Icon'
 
-export function IconMenu({ stroke = 'currentColor', ...props }: IconProps) {
+export const IconMenu = forwardRef<SVGSVGElement, IconProps>(function IconMenu(
+  { stroke = 'currentColor', ...props },
+  ref,
+) {
   return (
-    <Icon size={24} viewBox="0 0 24 24" {...props}>
+    <Icon ref={ref} size={24} viewBox="0 0 24 24" {...props}>
       <path
         d="M4.00073 4.9992H19.9991M4.00073 12H19.9991M4.00073 19.0008H19.9991"
         stroke={stroke}
@@ -11,4 +15,6 @@ export function IconMenu({ stroke = 'currentColor', ...props }: IconProps) {
       />
     </Icon>
   )
-}
+})
+
+IconMenu.displayName = 'IconMenu'

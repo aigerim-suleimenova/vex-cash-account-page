@@ -1,4 +1,4 @@
-import type { ComponentType, SVGProps } from 'react'
+import type { ForwardRefExoticComponent, RefAttributes, SVGProps } from 'react'
 import {
   IconBanknote,
   IconUpload,
@@ -10,7 +10,9 @@ import {
   IconLogOut,
 } from '../components/Icons'
 
-export type IconComponent = ComponentType<SVGProps<SVGSVGElement>>
+// All Icon* components are forwardRef-wrapped, so this is a ForwardRefExoticComponent,
+// not the plain ComponentType a non-ref-forwarding function component would be.
+export type IconComponent = ForwardRefExoticComponent<SVGProps<SVGSVGElement> & RefAttributes<SVGSVGElement>>
 
 export interface NavItem {
   id: string

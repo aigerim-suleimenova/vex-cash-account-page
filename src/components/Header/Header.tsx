@@ -1,8 +1,15 @@
+import * as React from 'react'
 import clsx from 'clsx'
+import type { DynamicRefForwardingComponent } from '../../types/polymorphic'
 import type { NavigationMode } from '../../hooks/useNavigationMode'
 import { IconMenu, IconXCircle } from '../Icons'
 
-interface HeaderProps {
+export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
+  /**
+   * Element used to render the component.
+   */
+  as?: React.ElementType | undefined
+
   mode: NavigationMode
   drawerOpen: boolean
   onToggleDrawer: () => void
@@ -23,58 +30,64 @@ const BAR_BLOCK = 'flex-fill d-flex flex-column align-items-start gap-1 p-4'
 const BAR_BLOCK_END = 'flex-fill d-flex flex-column align-items-end gap-1 p-4 border-start text-end'
 const BAR_CAPTION = 'text-body-secondary fs-xs fw-normal'
 
-export function Header({ mode, drawerOpen, onToggleDrawer }: HeaderProps) {
-  const isDrawerMode = mode === 'drawer'
+const Header: DynamicRefForwardingComponent<'header', HeaderProps> = React.forwardRef<HTMLElement, HeaderProps>(
+  ({ mode, drawerOpen, onToggleDrawer, className, as: Component = 'header', ...rest }, ref) => {
+    const isDrawerMode = mode === 'drawer'
 
-  return (
-    <header className={clsx(HEADER)}>
-      <div className={clsx(CONTENT_ROW)}>
-        <div className={clsx(LOGO_GROUP)}>
-          <div className={clsx(LOGO_ROW)}>
-            <span className={clsx('text-primary')}>VEX</span>
-            <span>CASH</span>
+    return (
+      <Component ref={ref} className={clsx(className, HEADER)} {...rest}>
+        <div className={clsx(CONTENT_ROW)}>
+          <div className={clsx(LOGO_GROUP)}>
+            <div className={clsx(LOGO_ROW)}>
+              <span className={clsx('text-primary')}>VEX</span>
+              <span>CASH</span>
+            </div>
+            <div className={clsx(TAGLINE)}>Einfach 60 Tage Geld leihen</div>
           </div>
-          <div className={clsx(TAGLINE)}>Einfach 60 Tage Geld leihen</div>
+
+          {!isDrawerMode && (
+            <div className={clsx(STAT_GROUP)}>
+              <div className={clsx(STAT_BLOCK)}>
+                <div className={clsx(STAT_CAPTION)}>Hallo,</div>
+                <div className={clsx(STAT_VALUE)}>John Smith</div>
+              </div>
+              <div className={clsx(STAT_BLOCK)}>
+                <div className={clsx(STAT_CAPTION)}>Status Ihrer Identifizierung</div>
+                <div className={clsx(STAT_VALUE, 'text-accent-dark')}>Identifiziert</div>
+              </div>
+            </div>
+          )}
+
+          {isDrawerMode && (
+            <button
+              type="button"
+              className={clsx(TOGGLE_BUTTON)}
+              onClick={onToggleDrawer}
+              aria-label={drawerOpen ? 'Navigation schließen' : 'Navigation öffnen'}
+              aria-expanded={drawerOpen}
+            >
+              {drawerOpen ? <IconXCircle /> : <IconMenu />}
+            </button>
+          )}
         </div>
 
-        {!isDrawerMode && (
-          <div className={clsx(STAT_GROUP)}>
-            <div className={clsx(STAT_BLOCK)}>
-              <div className={clsx(STAT_CAPTION)}>Hallo,</div>
+        {isDrawerMode && (
+          <div className={clsx(USER_BAR)}>
+            <div className={clsx(BAR_BLOCK)}>
+              <div className={clsx(BAR_CAPTION)}>Hallo,</div>
               <div className={clsx(STAT_VALUE)}>John Smith</div>
             </div>
-            <div className={clsx(STAT_BLOCK)}>
-              <div className={clsx(STAT_CAPTION)}>Status Ihrer Identifizierung</div>
+            <div className={clsx(BAR_BLOCK_END)}>
+              <div className={clsx(BAR_CAPTION)}>Status</div>
               <div className={clsx(STAT_VALUE, 'text-accent-dark')}>Identifiziert</div>
             </div>
           </div>
         )}
+      </Component>
+    )
+  },
+)
 
-        {isDrawerMode && (
-          <button
-            type="button"
-            className={clsx(TOGGLE_BUTTON)}
-            onClick={onToggleDrawer}
-            aria-label={drawerOpen ? 'Navigation schließen' : 'Navigation öffnen'}
-            aria-expanded={drawerOpen}
-          >
-            {drawerOpen ? <IconXCircle /> : <IconMenu />}
-          </button>
-        )}
-      </div>
+Header.displayName = 'Header'
 
-      {isDrawerMode && (
-        <div className={clsx(USER_BAR)}>
-          <div className={clsx(BAR_BLOCK)}>
-            <div className={clsx(BAR_CAPTION)}>Hallo,</div>
-            <div className={clsx(STAT_VALUE)}>John Smith</div>
-          </div>
-          <div className={clsx(BAR_BLOCK_END)}>
-            <div className={clsx(BAR_CAPTION)}>Status</div>
-            <div className={clsx(STAT_VALUE, 'text-accent-dark')}>Identifiziert</div>
-          </div>
-        </div>
-      )}
-    </header>
-  )
-}
+export { Header }
