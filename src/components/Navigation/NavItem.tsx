@@ -18,12 +18,14 @@ interface NavItemOwnProps {
 export type NavItemProps = NavItemOwnProps &
   Omit<ComponentPropsWithoutRef<typeof Link>, 'to' | 'className' | 'children' | 'onClick' | keyof NavItemOwnProps>
 
-const BASE = 'd-flex align-items-center gap-3 text-decoration-none'
-const VARIANT_CLASSES: Record<NavItemOwnProps['variant'], string> = {
-  row: 'w-100 align-self-stretch bg-white py-14px px-5',
-  card: 'p-4 rounded border border-divider bg-white',
-}
-const LABEL_BASE = 'flex-fill text-truncate'
+const STYLES = {
+  base: 'd-flex align-items-center gap-3 text-decoration-none',
+  variant: {
+    row: 'w-100 align-self-stretch bg-white py-14px px-5',
+    card: 'p-4 rounded border border-divider bg-white',
+  },
+  labelBase: 'flex-fill text-truncate',
+} as const
 
 export const NavItem = forwardRef<HTMLAnchorElement, NavItemProps>(function NavItem(
   { item, active, variant, useDrawerIcon, onNavigate, ...rest },
@@ -31,8 +33,8 @@ export const NavItem = forwardRef<HTMLAnchorElement, NavItemProps>(function NavI
 ) {
   const Icon = useDrawerIcon && item.DrawerIcon ? item.DrawerIcon : item.Icon
   const stroke = active ? 'var(--color-accent-dark)' : '#777777'
-  const linkClass = clsx(BASE, VARIANT_CLASSES[variant], active && 'bg-active')
-  const labelClass = clsx(LABEL_BASE, active ? 'fw-bold text-accent-dark' : 'fw-medium')
+  const linkClass = clsx(STYLES.base, STYLES.variant[variant], active && 'bg-active')
+  const labelClass = clsx(STYLES.labelBase, active ? 'fw-bold text-accent-dark' : 'fw-medium')
 
   return (
     <Link
