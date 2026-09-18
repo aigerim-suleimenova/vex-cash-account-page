@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import type { NavigationMode } from '../../hooks/useNavigationMode'
 import { IconMenu, IconXCircle } from '../Icons'
 
@@ -43,7 +44,7 @@ export function Header({ mode, drawerOpen, onToggleDrawer }: HeaderProps) {
             </div>
             <div className={STAT_BLOCK}>
               <div className={STAT_CAPTION}>Status Ihrer Identifizierung</div>
-              <div className={`${STAT_VALUE} text-accent-dark`}>Identifiziert</div>
+              <div className={clsx(STAT_VALUE, 'text-accent-dark')}>Identifiziert</div>
             </div>
           </div>
         )}
@@ -69,7 +70,7 @@ export function Header({ mode, drawerOpen, onToggleDrawer }: HeaderProps) {
           </div>
           <div className={BAR_BLOCK_END}>
             <div className={BAR_CAPTION}>Status</div>
-            <div className={`${STAT_VALUE} text-accent-dark`}>Identifiziert</div>
+            <div className={clsx(STAT_VALUE, 'text-accent-dark')}>Identifiziert</div>
           </div>
         </div>
       )}
