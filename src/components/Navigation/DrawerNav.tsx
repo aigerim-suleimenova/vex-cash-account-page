@@ -1,14 +1,14 @@
-import * as React from 'react'
+import { forwardRef, type ElementType, type HTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { DynamicRefForwardingComponent } from '../../types/polymorphic'
 import { NAV_ITEMS } from '../../data/navItems'
 import { NavItem } from './NavItem'
 
-export interface DrawerNavProps extends React.HTMLAttributes<HTMLElement> {
+export interface DrawerNavProps extends HTMLAttributes<HTMLElement> {
   /**
    * Element used to render the component.
    */
-  as?: React.ElementType | undefined
+  as?: ElementType | undefined
 
   activeItemId: string | null
   onNavigate: () => void
@@ -20,7 +20,7 @@ const STYLES = {
   col: 'col',
 } as const
 
-const DrawerNav: DynamicRefForwardingComponent<'div', DrawerNavProps> = React.forwardRef<HTMLElement, DrawerNavProps>(
+const DrawerNav: DynamicRefForwardingComponent<'div', DrawerNavProps> = forwardRef<HTMLElement, DrawerNavProps>(
   ({ activeItemId, onNavigate, className, as: Component = 'div', ...rest }, ref) => {
     return (
       <Component ref={ref} className={clsx(className, STYLES.root)} {...rest}>

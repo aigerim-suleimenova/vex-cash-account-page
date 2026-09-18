@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { forwardRef, type ElementType, type HTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { DynamicRefForwardingComponent } from '../../types/polymorphic'
 import type { IconComponent } from '../../data/navItems'
@@ -23,11 +23,11 @@ const VARIANTS: Record<'lock' | 'shield', { Icon: IconComponent; className: stri
 
 export type EmptyStateVariant = keyof typeof VARIANTS
 
-export interface EmptyStateProps extends React.HTMLAttributes<HTMLElement> {
+export interface EmptyStateProps extends HTMLAttributes<HTMLElement> {
   /**
    * Element used to render the component.
    */
-  as?: React.ElementType | undefined
+  as?: ElementType | undefined
 
   variant: EmptyStateVariant
 }
@@ -37,7 +37,7 @@ const STYLES = {
   text: 'm-0 text-body-secondary text-center',
 } as const
 
-const EmptyState: DynamicRefForwardingComponent<'div', EmptyStateProps> = React.forwardRef<HTMLElement, EmptyStateProps>(
+const EmptyState: DynamicRefForwardingComponent<'div', EmptyStateProps> = forwardRef<HTMLElement, EmptyStateProps>(
   ({ variant, className, as: Component = 'div', ...rest }, ref) => {
     const { Icon, className: iconClassName, text } = VARIANTS[variant]
 

@@ -1,14 +1,14 @@
-import * as React from 'react'
+import { forwardRef, type ElementType, type HTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { DynamicRefForwardingComponent } from '../../types/polymorphic'
 import { NAV_ITEMS } from '../../data/navItems'
 import { NavItem } from './NavItem'
 
-export interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
+export interface SidebarNavProps extends HTMLAttributes<HTMLElement> {
   /**
    * Element used to render the component.
    */
-  as?: React.ElementType | undefined
+  as?: ElementType | undefined
 
   activeItemId: string | null
 }
@@ -17,7 +17,7 @@ const STYLES = {
   sidebar: 'd-flex flex-column align-items-start align-self-stretch flex-shrink-0 w-sidebar border-end bg-white',
 } as const
 
-const SidebarNav: DynamicRefForwardingComponent<'nav', SidebarNavProps> = React.forwardRef<
+const SidebarNav: DynamicRefForwardingComponent<'nav', SidebarNavProps> = forwardRef<
   HTMLElement,
   SidebarNavProps
 >(({ activeItemId, className, as: Component = 'nav', ...rest }, ref) => {

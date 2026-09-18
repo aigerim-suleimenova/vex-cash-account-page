@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { forwardRef, type ElementType, type HTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { DynamicRefForwardingComponent } from '../../types/polymorphic'
 import { IconMars } from '../Icons'
@@ -44,14 +44,14 @@ function Section({ section }: { section: PersonalDataSection }) {
   )
 }
 
-export interface PersonalDataContentProps extends React.HTMLAttributes<HTMLElement> {
+export interface PersonalDataContentProps extends HTMLAttributes<HTMLElement> {
   /**
    * Element used to render the component.
    */
-  as?: React.ElementType | undefined
+  as?: ElementType | undefined
 }
 
-const PersonalDataContent: DynamicRefForwardingComponent<'div', PersonalDataContentProps> = React.forwardRef<
+const PersonalDataContent: DynamicRefForwardingComponent<'div', PersonalDataContentProps> = forwardRef<
   HTMLElement,
   PersonalDataContentProps
 >(({ className, as: Component = 'div', ...rest }, ref) => {

@@ -1,14 +1,14 @@
-import * as React from 'react'
+import { forwardRef, type ElementType, type HTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { DynamicRefForwardingComponent } from '../../types/polymorphic'
 import type { NavigationMode } from '../../hooks/useNavigationMode'
 import { IconMenu, IconXCircle } from '../Icons'
 
-export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
+export interface HeaderProps extends HTMLAttributes<HTMLElement> {
   /**
    * Element used to render the component.
    */
-  as?: React.ElementType | undefined
+  as?: ElementType | undefined
 
   mode: NavigationMode
   drawerOpen: boolean
@@ -33,7 +33,7 @@ const STYLES = {
   barCaption: 'text-body-secondary fs-xs fw-normal',
 } as const
 
-const Header: DynamicRefForwardingComponent<'header', HeaderProps> = React.forwardRef<HTMLElement, HeaderProps>(
+const Header: DynamicRefForwardingComponent<'header', HeaderProps> = forwardRef<HTMLElement, HeaderProps>(
   ({ mode, drawerOpen, onToggleDrawer, className, as: Component = 'header', ...rest }, ref) => {
     const isDrawerMode = mode === 'drawer'
 

@@ -1,14 +1,14 @@
-import * as React from 'react'
+import { forwardRef, type ElementType, type HTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { DynamicRefForwardingComponent } from '../../types/polymorphic'
 import { NAV_ITEMS } from '../../data/navItems'
 import { NavItem } from './NavItem'
 
-export interface InlineNavProps extends React.HTMLAttributes<HTMLElement> {
+export interface InlineNavProps extends HTMLAttributes<HTMLElement> {
   /**
    * Element used to render the component.
    */
-  as?: React.ElementType | undefined
+  as?: ElementType | undefined
 
   activeItemId: string | null
 }
@@ -20,7 +20,7 @@ const STYLES = {
   col: 'col',
 } as const
 
-const InlineNav: DynamicRefForwardingComponent<'div', InlineNavProps> = React.forwardRef<HTMLElement, InlineNavProps>(
+const InlineNav: DynamicRefForwardingComponent<'div', InlineNavProps> = forwardRef<HTMLElement, InlineNavProps>(
   ({ activeItemId, className, as: Component = 'div', ...rest }, ref) => {
     return (
       <Component ref={ref} className={clsx(className, STYLES.root)} {...rest}>
