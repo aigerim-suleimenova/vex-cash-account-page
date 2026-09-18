@@ -15,45 +15,48 @@ export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   onToggleDrawer: () => void
 }
 
-const HEADER = 'd-flex flex-column border-bottom bg-white'
-const CONTENT_ROW = 'd-flex justify-content-between align-items-center py-4 px-6 px-md-8'
-const LOGO_GROUP = 'd-flex flex-column align-items-start gap-2px'
-const LOGO_ROW = 'd-flex align-items-baseline gap-2px fs-3xl fw-black'
-const TAGLINE = 'text-body-secondary fs-2xs fw-medium'
-const STAT_GROUP = 'd-flex align-items-center gap-7'
-const STAT_BLOCK = 'd-flex flex-column align-items-end gap-2px'
-const STAT_CAPTION = 'text-body-secondary fs-sm fw-normal'
-const STAT_VALUE = 'fs-lg fw-bold'
-const TOGGLE_BUTTON = 'btn-plain d-flex p-2 rounded'
-const USER_BAR = 'd-flex align-items-stretch border-top'
-const BAR_BLOCK = 'flex-fill d-flex flex-column align-items-start gap-1 p-4'
-const BAR_BLOCK_END = 'flex-fill d-flex flex-column align-items-end gap-1 p-4 border-start text-end'
-const BAR_CAPTION = 'text-body-secondary fs-xs fw-normal'
+const STYLES = {
+  header: 'd-flex flex-column border-bottom bg-white',
+  contentRow: 'd-flex justify-content-between align-items-center py-4 px-6 px-md-8',
+  logoGroup: 'd-flex flex-column align-items-start gap-2px',
+  logoRow: 'd-flex align-items-baseline gap-2px fs-3xl fw-black',
+  tagline: 'text-body-secondary fs-2xs fw-medium',
+  statGroup: 'd-flex align-items-center gap-7',
+  statBlock: 'd-flex flex-column align-items-end gap-2px',
+  statCaption: 'text-body-secondary fs-sm fw-normal',
+  statValue: 'fs-lg fw-bold',
+  statValueAccent: 'fs-lg fw-bold text-accent-dark',
+  toggleButton: 'btn-plain d-flex p-2 rounded',
+  userBar: 'd-flex align-items-stretch border-top',
+  barBlock: 'flex-fill d-flex flex-column align-items-start gap-1 p-4',
+  barBlockEnd: 'flex-fill d-flex flex-column align-items-end gap-1 p-4 border-start text-end',
+  barCaption: 'text-body-secondary fs-xs fw-normal',
+} as const
 
 const Header: DynamicRefForwardingComponent<'header', HeaderProps> = React.forwardRef<HTMLElement, HeaderProps>(
   ({ mode, drawerOpen, onToggleDrawer, className, as: Component = 'header', ...rest }, ref) => {
     const isDrawerMode = mode === 'drawer'
 
     return (
-      <Component ref={ref} className={clsx(className, HEADER)} {...rest}>
-        <div className={clsx(CONTENT_ROW)}>
-          <div className={clsx(LOGO_GROUP)}>
-            <div className={clsx(LOGO_ROW)}>
-              <span className={clsx('text-primary')}>VEX</span>
+      <Component ref={ref} className={clsx(className, STYLES.header)} {...rest}>
+        <div className={STYLES.contentRow}>
+          <div className={STYLES.logoGroup}>
+            <div className={STYLES.logoRow}>
+              <span className="text-primary">VEX</span>
               <span>CASH</span>
             </div>
-            <div className={clsx(TAGLINE)}>Einfach 60 Tage Geld leihen</div>
+            <div className={STYLES.tagline}>Einfach 60 Tage Geld leihen</div>
           </div>
 
           {!isDrawerMode && (
-            <div className={clsx(STAT_GROUP)}>
-              <div className={clsx(STAT_BLOCK)}>
-                <div className={clsx(STAT_CAPTION)}>Hallo,</div>
-                <div className={clsx(STAT_VALUE)}>John Smith</div>
+            <div className={STYLES.statGroup}>
+              <div className={STYLES.statBlock}>
+                <div className={STYLES.statCaption}>Hallo,</div>
+                <div className={STYLES.statValue}>John Smith</div>
               </div>
-              <div className={clsx(STAT_BLOCK)}>
-                <div className={clsx(STAT_CAPTION)}>Status Ihrer Identifizierung</div>
-                <div className={clsx(STAT_VALUE, 'text-accent-dark')}>Identifiziert</div>
+              <div className={STYLES.statBlock}>
+                <div className={STYLES.statCaption}>Status Ihrer Identifizierung</div>
+                <div className={STYLES.statValueAccent}>Identifiziert</div>
               </div>
             </div>
           )}
@@ -61,7 +64,7 @@ const Header: DynamicRefForwardingComponent<'header', HeaderProps> = React.forwa
           {isDrawerMode && (
             <button
               type="button"
-              className={clsx(TOGGLE_BUTTON)}
+              className={STYLES.toggleButton}
               onClick={onToggleDrawer}
               aria-label={drawerOpen ? 'Navigation schließen' : 'Navigation öffnen'}
               aria-expanded={drawerOpen}
@@ -72,14 +75,14 @@ const Header: DynamicRefForwardingComponent<'header', HeaderProps> = React.forwa
         </div>
 
         {isDrawerMode && (
-          <div className={clsx(USER_BAR)}>
-            <div className={clsx(BAR_BLOCK)}>
-              <div className={clsx(BAR_CAPTION)}>Hallo,</div>
-              <div className={clsx(STAT_VALUE)}>John Smith</div>
+          <div className={STYLES.userBar}>
+            <div className={STYLES.barBlock}>
+              <div className={STYLES.barCaption}>Hallo,</div>
+              <div className={STYLES.statValue}>John Smith</div>
             </div>
-            <div className={clsx(BAR_BLOCK_END)}>
-              <div className={clsx(BAR_CAPTION)}>Status</div>
-              <div className={clsx(STAT_VALUE, 'text-accent-dark')}>Identifiziert</div>
+            <div className={STYLES.barBlockEnd}>
+              <div className={STYLES.barCaption}>Status</div>
+              <div className={STYLES.statValueAccent}>Identifiziert</div>
             </div>
           </div>
         )}
