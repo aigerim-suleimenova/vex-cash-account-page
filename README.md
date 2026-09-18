@@ -7,6 +7,9 @@ the viewport narrows — a persistent sidebar, an inline card grid, and a mobile
 This is a demo/take-home-style build: a single static page, no backend, no auth. The
 interesting part is the responsive navigation, not a real product surface.
 
+**Live demo:** https://aigerim-suleimenova.github.io/vex-cash-account-page/
+(deploys automatically from `main` via `.github/workflows/deploy.yml`)
+
 ## Getting started
 
 ```bash
@@ -48,6 +51,20 @@ placeholder rather than fabricated pages.
 - **Navigation selection lives in the URL** (React Router), not component state — every
   destination is a real route (`/persoenliche-daten`, `/kredite`, ...), so it survives
   a page reload and works with the browser's back/forward buttons.
+- **Component API mirrors react-bootstrap's own conventions**, applied only where they
+  mean something for this app: `forwardRef` + a polymorphic `as` prop + native
+  HTML-attribute passthrough on every component that's a real render target
+  (`Header`, `EmptyState`, `PersonalDataContent`, `SidebarNav`, `InlineNav`,
+  `DrawerNav`), via a local `DynamicRefForwardingComponent` type
+  (`src/types/polymorphic.ts`) rather than depending on `@restart/ui` for one type.
+  Deliberately *not* applied to `NavItem` (its whole job is client-side routing via
+  `<Link>`, so swapping the element would break navigation) or the `Icon*` components
+  (an `<svg viewBox>` has no sensible polymorphic target) — both still get
+  `forwardRef`, just no `as`.
+- **Every component's classes live in one frozen `STYLES` object**, not scattered
+  top-level constants. `clsx` is used only where it does real work — merging the
+  consumer-passed `className` prop, or genuinely conditional classes (e.g. an active
+  nav item's highlight) — never wrapped around a single static string.
 
 ## Project structure
 
@@ -63,6 +80,7 @@ src/
   data/                    Static nav items + personal data field values
   hooks/                   useNavigationMode — breakpoint → which nav layout
   styles/                  Bootstrap customization (_variables.scss, _utilities.scss)
+  types/                   polymorphic.ts — the local DynamicRefForwardingComponent type
 ```
 
 Each component lives in its own folder; there's no `shared/` folder — the codebase
